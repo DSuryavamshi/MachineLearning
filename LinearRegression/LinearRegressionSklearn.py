@@ -17,4 +17,4 @@ if __name__ == '__main__':
     accuracy = r2_score(y_true=y_test, y_pred=y_predicted)
     print(f"Coef: {model.coef_}")
     print(f"Intercept: {model.intercept_}")
-    print(f"accuracy: {accuracy*100:.3f} %")
+    print(f"accuracy: {accuracy * 100:.3f} %")
