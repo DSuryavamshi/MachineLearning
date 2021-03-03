@@ -3,6 +3,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import r2_score
 from sklearn.model_selection import train_test_split
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 class GradientDescent(object):
@@ -62,11 +64,11 @@ if __name__ == '__main__':
     dataset.insert(loc=0, column='X1', value=1)
     X = dataset.iloc[:, :-1].values
     y = dataset.iloc[:, -1].values
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-    grad_model = GradientDescent(learning_rate=0.0001, iterations=10000, X=X_train, y=y_train)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=0)
+    grad_model = GradientDescent(learning_rate=0.01, iterations=200000, X=X_train, y=y_train)
     y_hat, weights = grad_model.gradient_descent()
     y_predicted_grad = grad_model.predict(X_test)
-    print(f"Accuracy for Gradient Descent: {r2_score(y_true=y_test, y_pred=y_predicted_grad)*100:.3f} %")  # 95.692 %
+    print(f"Accuracy for Gradient Descent: {r2_score(y_true=y_test, y_pred=y_predicted_grad) * 100:.3f} %")  # 95.692 %
     print(f"GD weights: {weights}")
 
     norm_model = NormalEquation(X=X_train, y=y_train)
@@ -74,4 +76,10 @@ if __name__ == '__main__':
     print(f"Normal Equation Coeff: {coeff}")
     print(f"Normal Equation Intercept: {intercept}")
     y_predicted_norm = norm_model.predict(X_test)
-    print(f"Accuracy for Normal Equation: {r2_score(y_true=y_test, y_pred=y_predicted_norm)*100:.3f} %") # 98.817 %
+    print(f"Accuracy for Normal Equation: {r2_score(y_true=y_test, y_pred=y_predicted_norm) * 100:.3f} %")  # 98.817 %
+
+    # Plotting the data
+    plt.scatter(X_test[:, 1:], y_test, color='red')
+    plt.plot(X_test[:, 1:], y_predicted_grad)
+    plt.title("LinearRegression - Grad (No Reg)")
+    plt.show()
